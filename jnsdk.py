@@ -1,9 +1,6 @@
 import urllib2
 import json
 
-#User Info
-#APIKey = "003"
-
 #Server globals
 WSURL = "http://23.239.10.88/obdapi/"
 
