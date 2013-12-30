@@ -2,7 +2,7 @@ import urllib2
 import json
 import pymongo
 from pymongo import MongoClient
-
+from time import strftime
 
 #Server globals
 WSURL = "http://23.239.10.88/obdapi/"
@@ -15,10 +15,9 @@ mongocollection = "pids"
 def SendPID(APIKey, PID, PIDValue):	
 	#global APIKey
 
-	#jdata = json.dumps({"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"})
 	#Stop calling the API directly, and instead, push the data into a local buffer via MongoDB.
-	#urllib2.urlopen(WSURL+"save.php", jdata)
-	jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
+	#jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
+	jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
 	client = MongoClient()
 	db = client[mongodb]
 	collection = db[mongocollection]
