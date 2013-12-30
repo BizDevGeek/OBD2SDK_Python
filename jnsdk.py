@@ -7,6 +7,10 @@ from pymongo import MongoClient
 #Server globals
 WSURL = "http://23.239.10.88/obdapi/"
 
+#Buffer
+mongodb = "obd"
+mongocollection = "pids"
+
 #NOTE: There is no validation of the API key at the client side. Add this in. 
 def SendPID(APIKey, PID, PIDValue):	
 	#global APIKey
@@ -16,10 +20,9 @@ def SendPID(APIKey, PID, PIDValue):
 	#urllib2.urlopen(WSURL+"save.php", jdata)
 	jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
 	client = MongoClient()
-	db = client.test
-	collection = db.testcoll
-	posts = db.posts
-	post_id = posts.insert(jdata)
+	db = client[mongodb]
+	collection = db[mongocollection]
+	post_id = collection.insert(jdata)
 
 
 
