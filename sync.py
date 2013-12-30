@@ -23,6 +23,7 @@ while i <> 0:
 
 	#get oldest record
 	jdata = coll.find().sort({"_id":1})
+	#How to get the _ID value of that record? Need it to delete the record after uploading it to API
 	urllib2.urlopen(WSURL+"save.php", jdata)
 	#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
 	coll.remove({"_id":"INSERT THE ID HERE"})
