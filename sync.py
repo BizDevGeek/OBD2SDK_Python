@@ -12,7 +12,20 @@ WSURL = "http://23.239.10.88/obdapi/"
 mongodb = "obd"
 mongocollection = "pids"
 
-while Connected(WSURL):
+def IsConnected(URL):
+        try:
+                urllib2.urlopen(URL)
+                return True
+        except urllib2.HTTPError, e:
+                #print e.code
+                return False
+        except urllib2.URLError, e:
+                #print e.args
+                return False
+
+
+
+while IsConnected(WSURL):
 
 	client = MongoClient()
 	db = client[mongodb]
@@ -23,7 +36,7 @@ while Connected(WSURL):
 	
 	while i <> 0:
 
-		if Connected(WSURL):
+		if IsConnected(WSURL):
 			#get oldest record
 			#data = coll.find().sort({_id:1})
 			data = coll.find_one()
@@ -45,13 +58,3 @@ while Connected(WSURL):
 
 
 
-def Connected(URL):
-	try:
-		urllib2.urlopen(URL)
-		return true
-	except urllib2.HTTPError, e:
-    		#print e.code
-		return false
-	except urllib2.URLError, e:
-		#print e.args
-		return false
