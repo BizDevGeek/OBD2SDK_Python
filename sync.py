@@ -6,26 +6,27 @@ from pymongo import MongoClient
 #Sync utility. Pull records from buffer (MongoDB) and push to API
 
 #Server globals
-WSURL = "http://23.239.10.88/obdapi/"
+WSURLConnectTest = "http://23.239.10.88"
+WSURL = WSURLConnectTest + "/obdapi/"
 
 #Buffer
 mongodb = "obd"
 mongocollection = "pids"
 
+#Check that there's a connection to the API server
 def IsConnected(URL):
         try:
-                urllib2.urlopen(URL)
-                return True
-        except urllib2.HTTPError, e:
+		urllib2.urlopen(URL)
+	except urllib2.HTTPError, e:
                 #print e.code
-                return False
-        except urllib2.URLError, e:
+		return False
+	except urllib2.URLError, e:
                 #print e.args
-                return False
+		return False
+	return True
 
 
-
-while IsConnected(WSURL):
+while IsConnected(WSURLConnectTest):
 
 	client = MongoClient()
 	db = client[mongodb]
@@ -36,7 +37,7 @@ while IsConnected(WSURL):
 	
 	while i <> 0:
 
-		if IsConnected(WSURL):
+		if IsConnected(WSURLConnectTest):
 			#get oldest record
 			#data = coll.find().sort({_id:1})
 			data = coll.find_one()
