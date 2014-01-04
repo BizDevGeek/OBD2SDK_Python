@@ -2,6 +2,7 @@ import urllib2
 import json
 import pymongo
 from pymongo import MongoClient
+import time
 
 #Sync utility. Pull records from buffer (MongoDB) and push to API
 
@@ -12,6 +13,9 @@ WSURL = WSURLConnectTest + "/obdapi/"
 #Buffer
 mongodb = "obd"
 mongocollection = "pids"
+
+#Other Settings
+CheckInterval = 1
 
 #Check that there's a connection to the API server
 def IsConnected(URL):
@@ -27,7 +31,7 @@ def IsConnected(URL):
 
 
 while True:
-
+	time.sleep(CheckInterval) #check for an internet connection to server every N seconds
 	while IsConnected(WSURLConnectTest):
 
 		client = MongoClient()
