@@ -52,7 +52,8 @@ while True:
 				#Also, remove the _ID item from the array as that's not needed when sending data to the API. 
 				jarray = {"APIKey":data['APIKey'], "PID":data['PID'], "PIDValue":data['PIDValue'], "EventDate":data['EventDate']}
 				jdata = json.dumps(jarray)
-				urllib2.urlopen(WSURL+"save.php", jdata)
+				result = urllib2.urlopen(WSURL+"save.php", jdata)
+				
 				#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
 				coll.remove({"_id":id})
 				i = coll.count()
