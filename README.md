@@ -25,4 +25,7 @@ Copy the .py files to where your Python program is.
 
 In your Python program, add "import jnsdk". To save a PID each time you poll it from the OBD2 serial connection: jnsdk.SendPID(jnsdk.APIKey(), PID, PIDValue)
 
+The above function call saves the PID values to a local buffer, a MongoDB Collection. Run sync.py to sync the data to the API. It pulls records one at a time from the buffer, uploads to the API, then removes them. It verifies that there's a connection to the server first. 
+
+
 
