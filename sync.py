@@ -3,19 +3,24 @@ import json
 import pymongo
 from pymongo import MongoClient
 import time
+from ConfigParser import *
+
+c = ConfigParser()
+c.read("config.txt")
+
+WSURL = c.get("Settings", "url")
+
+#Buffer
+mongodb = c.get("Settings", "mongodb")
+mongocollection = c.get("Settings", "mongocoll")
 
 #Sync utility. Pull records from buffer (MongoDB) and push to API
 
 #Server globals
-WSURLConnectTest = "http://23.239.10.88"
-WSURL = WSURLConnectTest + "/obdapi/"
-
-#Buffer
-mongodb = "obd"
-mongocollection = "pids"
+WSURLConnectTest = WSURL
 
 #Other Settings
-CheckInterval = 1
+CheckInterval = 1 #seconds
 
 #Check that there's a connection to the API server
 def IsConnected(URL):
@@ -23,6 +28,8 @@ def IsConnected(URL):
 		urllib2.urlopen(URL)
 	except urllib2.HTTPError, e:
                 #print e.code
+		if e.code == 403:
+			return True #server's online, just not letting that directory be browsed
 		return False
 	except urllib2.URLError, e:
                 #print e.args

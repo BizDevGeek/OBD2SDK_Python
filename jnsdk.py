@@ -3,13 +3,17 @@ import json
 import pymongo
 from pymongo import MongoClient
 from time import strftime
+from ConfigParser import *
 
-#Server globals
-WSURL = "http://23.239.10.88/obdapi/"
+c = ConfigParser()
+c.read("config.txt")
+
+WSURL = c.get("Settings", "url")
+API_Key = c.get("Settings", "api_key")
 
 #Buffer
-mongodb = "obd"
-mongocollection = "pids"
+mongodb = c.get("Settings", "mongodb")
+mongocollection = c.get("Settings", "mongocoll")
 
 #NOTE: There is no validation of the API key at the client side. Add this in. 
 def SendPID(APIKey, PID, PIDValue):	
@@ -38,3 +42,7 @@ def RetrieveKey(Email):
 
         jdata = json.dumps({"Email":Email})
         urllib2.urlopen(WSURL+"retrievekey.php", jdata)
+
+def APIKey():
+	#global APIKey	
+	return API_Key

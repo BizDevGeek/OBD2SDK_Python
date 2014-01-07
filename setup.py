@@ -23,8 +23,21 @@ apiurl = raw_input("Enter the URL of the API to use [Enter for default value: ht
 if apiurl == "":
 	apiurl = "http://23.239.10.88/obdapi/"
 
+mongodb = raw_input("Enter the name of the MongoDB to use [Enter for default value: obd]")
+
+if mongodb == "":
+	mongodb = "obd"
+
+mongocollection = raw_input("Enter the name of the MongoDB Collection to use [Enter for default value: pids]")
+
+if mongocollection == "":
+	mongocollection = "pids"
+
 c.add_section("Settings")
-c.set("Settings", "URL", apiurl) #must include a trailing slash
+c.set("Settings", "url", apiurl) #must include a trailing slash
+c.set("Settings", "mongodb", mongodb)
+c.set("Settings", "mongocoll", mongocollection)
+
 c.write(f) #setup the URL before registering email address, so you know which server to register with.
 f.close
 
