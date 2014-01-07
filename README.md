@@ -13,7 +13,7 @@ sync.py pulls records from the local buffer (MongoDB) and sends them to the API 
 
 Installation
 
-If you're installing the API to your own server, make sure that's setup first. You'll need the URL for the next step. EX: http://10.10.10.10/obdapi/
+If you're installing the API to your own server, make sure that's setup first. You'll need the URL for the next step. EX: http://23.239.10.88/obdapi/
 
 "python register.py" - Prompts you for the server URL (or use the author's for default) and for an email address and returns an API Key for you to use. It creates the config file below.
 
