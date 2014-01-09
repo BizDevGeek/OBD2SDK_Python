@@ -59,12 +59,16 @@ while True:
 				#Also, remove the _ID item from the array as that's not needed when sending data to the API. 
 				jarray = {"APIKey":data['APIKey'], "PID":data['PID'], "PIDValue":data['PIDValue'], "EventDate":data['EventDate']}
 				jdata = json.dumps(jarray)
+				#print "Uploading: " + jdata
 				result = urllib2.urlopen(WSURL+"save.php", jdata)
-				
-				#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
-				coll.remove({"_id":id})
-				i = coll.count()
-
+				r = result.read()
+				if r == "true":
+					#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
+					coll.remove({"_id":id})
+					i = coll.count()
+				else:
+					#API isn't saving the data. Log or alert the system to this.
+					print r	
 	#jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
 	#client = MongoClient()
 	#db = client[mongodb]
