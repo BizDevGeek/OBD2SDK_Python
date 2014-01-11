@@ -12,7 +12,6 @@ f = open("config.txt", "w")
 
 c = ConfigParser()
 
-
 print "Setup for the SDK"
 print "Enter your own server information or use the default server"
 print "If you're using your own API server, the API MUST be setup and running before you run this script. Otherwise you won't be able to register yourself to get an API Key"
@@ -28,15 +27,21 @@ mongodb = raw_input("Enter the name of the MongoDB to use [Enter for default val
 if mongodb == "":
 	mongodb = "obd"
 
-mongocollection = raw_input("Enter the name of the MongoDB Collection to use [Enter for default value: pids]")
+mongocollection_obd = raw_input("Enter the name of the MongoDB Collection to use for OBD2 [Enter for default value: pids]")
 
-if mongocollection == "":
-	mongocollection = "pids"
+if mongocollection_obd == "":
+	mongocollection_obd = "pids"
+
+mongocollection_gps = raw_input("Enter the name of the MongoDB Collection to use for GPS [Enter for default value: gps]")
+
+if mongocollection_gps == "":
+        mongocollection_gps = "gps"
 
 c.add_section("Settings")
 c.set("Settings", "url", apiurl) #must include a trailing slash
 c.set("Settings", "mongodb", mongodb)
-c.set("Settings", "mongocoll", mongocollection)
+c.set("Settings", "mongocoll_obd", mongocollection_obd)
+c.set("Settings", "mongocoll_gps", mongocollection_gps)
 
 c.write(f) #setup the URL before registering email address, so you know which server to register with.
 f.close
