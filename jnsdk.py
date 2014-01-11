@@ -13,7 +13,8 @@ API_Key = c.get("Settings", "api_key")
 
 #Buffer
 mongodb = c.get("Settings", "mongodb")
-mongocollection = c.get("Settings", "mongocoll")
+MCOBD = c.get("Settings", "mongocoll_obd")
+MCGPS = c.get("Settings", "mongocoll_gps")
 
 #NOTE: There is no validation of the API key at the client side. Add this in. 
 def SendPID(APIKey, PID, PIDValue):	
@@ -24,7 +25,7 @@ def SendPID(APIKey, PID, PIDValue):
 	jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
 	client = MongoClient()
 	db = client[mongodb]
-	collection = db[mongocollection]
+	collection = db[MCOBD]
 	post_id = collection.insert(jdata)
 
 
@@ -44,5 +45,14 @@ def RetrieveKey(Email):
         urllib2.urlopen(WSURL+"retrievekey.php", jdata)
 
 def APIKey():
-	#global APIKey	
 	return API_Key
+
+def SendGPS(APIKey, latitude, longitude, EventDate):
+        #jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
+        jdata = {"APIKey":APIKey, "lat":latitude, "lng":longtitude, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
+        client = MongoClient()
+        db = client[mongodb]
+        collection = db[MCGPS]
+        post_id = collection.insert(jdata)
+
+
