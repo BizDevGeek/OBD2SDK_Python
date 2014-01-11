@@ -9,6 +9,8 @@ This project contains an SDK that you can use to save OBD2 PID values. Use it wi
 
 The SDK stores the saved values in a local buffer. The buffer is a MongoDB collection. 
 
+GPS data is also being added in. This feature is still in development. 
+
 sync.py pulls records from the local buffer (MongoDB) and sends them to the API via JSON. It then removes them from the buffer. Runs in an infinite loop, not just until the buffer is empty. You can run it in a separate terminal window and leave it going, or Ctrl+C to kill it. 
 
 Installation
