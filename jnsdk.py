@@ -51,7 +51,7 @@ def SendGPS(APIKey, latitude, longitude):
 	#TODO: Validate the data coming in before it's sent out. 
 
         #jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
-        jdata = {"APIKey":APIKey, "lat":latitude, "lng":longtitude, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
+        jdata = {"APIKey":APIKey, "lat":latitude, "lng":longitude, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
         client = MongoClient()
         db = client[mongodb]
         collection = db[MCGPS]

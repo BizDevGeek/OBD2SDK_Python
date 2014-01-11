@@ -13,8 +13,8 @@ while True:
 	time.sleep(.1)
 	
 	#arbitrary random values and ranges
-	lat = random.randrange(10,99)
-	lng = random.randrange(-50, 5000)
+	lat = str(random.randrange(100, 999)) + "%.6f" % random.random()
+	lng = str(random.randrange(100, 999)) + "%.6f" % random.random()
 	APIKey = jnsdk.APIKey()
 
 	jnsdk.SendGPS(APIKey, lat, lng)
