@@ -1,0 +1,6 @@
+[Settings]
+url = http://23.239.10.88/obdapi/
+mongodb = obd
+mongocoll_obd = pids
+mongocoll_gps = gps
+api_key = DEFAULTAPIKEY
