@@ -1,6 +1,9 @@
 import time
 import serial
 import os
+import jnsdk
+
+APIKey = jnsdk.APIKey()
 
 while True:
         time.sleep(1)
@@ -20,4 +23,5 @@ while True:
                 #print "N or S: " + data[3]
                 #print "Lon: " + data[4]
                 #print "E or W: " + data[5]
+		jnsdk.SendGPS(APIKey, data[2], data[3], data[4], data[5], data[1])
 
