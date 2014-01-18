@@ -2,13 +2,23 @@ import time
 import serial
 import os
 import jnsdk
+from ConfigParser import *
+
+c = ConfigParser()
+
+try:
+        c.read("config.txt")
+        gps_device = c.get("Settings", "gps_device") 
+except:
+        print "Can't open config file. Run setup.py and make sure config.txt is valid"
+        sys.exit()      
 
 APIKey = jnsdk.APIKey()
 
 while True:
         time.sleep(1)
 
-        serialport = serial.Serial("/dev/ttyUSB0", 4800, timeout=0.5)
+        serialport = serial.Serial(gps_device, 4800, timeout=0.5)
         r = serialport.readlines(1)
         #alternative: r=serialport.readline(), and then loop through entire List that it returns
         line = r[0] #r is a list, print 0th item in the list
