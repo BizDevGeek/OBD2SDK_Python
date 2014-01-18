@@ -4,9 +4,16 @@ import pymongo
 from pymongo import MongoClient
 from time import strftime
 from ConfigParser import *
+import sys
 
 c = ConfigParser()
-c.read("config.txt")
+
+try:
+	c.read("config.txt")
+	test = c.get("Settings", "url") #grab a random setting to test/raise the exception
+except:
+	print "Can't open config file. Run setup.py and make sure config.txt is valid"
+	sys.exit()	
 
 WSURL = c.get("Settings", "url")
 API_Key = c.get("Settings", "api_key")
