@@ -37,11 +37,17 @@ mongocollection_gps = raw_input("Enter the name of the MongoDB Collection to use
 if mongocollection_gps == "":
         mongocollection_gps = "gps"
 
+gps_device = raw_input("Enter the Linux device name of your USB GPS [Enter for default value: /dev/ttyUSB0]")
+
+if gps_device == "":
+        gps_device = "/dev/ttyUSB0"
+
 c.add_section("Settings")
 c.set("Settings", "url", apiurl) #must include a trailing slash
 c.set("Settings", "mongodb", mongodb)
 c.set("Settings", "mongocoll_obd", mongocollection_obd)
 c.set("Settings", "mongocoll_gps", mongocollection_gps)
+c.set("Settings", "gps_device", gps_device)
 
 c.write(f) #setup the URL before registering email address, so you know which server to register with.
 f.close
