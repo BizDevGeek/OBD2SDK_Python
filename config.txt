@@ -4,3 +4,5 @@ mongodb = obd
 mongocoll_obd = pids
 mongocoll_gps = gps
 api_key = DEFAULTAPIKEY
+gps_device = /dev/ttyUSB0
+
