@@ -18,10 +18,15 @@ Installation
 SSH into your Raspberry Pi
 
 cd /home/pi
+
 git clone https://github.com/BizDevGeek/OBD2SDK_Python.git
+
 python setup.py
+
 Install the GPS daemon so that it's recording GPS data into the local buffer. 
+
 sudo cp /home/pi/OBD2SDK_Python/gpslogger.conf /etc/init
+
 sudo service gpslogger start
 
 If you're installing the API to your own server, make sure that's setup first. You'll need the URL for the next step. EX: http://23.239.10.88/obdapi/. If you don't have this setup, a default server is provided for you. 
