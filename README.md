@@ -15,6 +15,15 @@ sync.py pulls records from the local buffer (MongoDB) and sends them to the API 
 
 Installation
 
+SSH into your Raspberry Pi
+
+cd /home/pi
+git clone https://github.com/BizDevGeek/OBD2SDK_Python.git
+python setup.py
+Install the GPS daemon so that it's recording GPS data into the local buffer. 
+sudo cp /home/pi/OBD2SDK_Python/gpslogger.conf /etc/init
+sudo service gpslogger start
+
 If you're installing the API to your own server, make sure that's setup first. You'll need the URL for the next step. EX: http://23.239.10.88/obdapi/. If you don't have this setup, a default server is provided for you. 
 
 setup.py - Prompts you for the server URL (or use the author's for default) and for an email address and returns an API Key for you to use. It creates the config file below.
@@ -29,5 +38,5 @@ In your Python program, add "import jnsdk". To save a PID each time you poll it 
 
 The above function call saves the PID values to a local buffer, a MongoDB Collection. Run sync.py to sync the data to the API. It pulls records one at a time from the buffer, uploads to the API, then removes them. It verifies that there's a connection to the server first. 
 
-
+The GPS daemon gpslogger reads the Pi's serial connection to the USB GPS device and logs it to local buffer (MongoDB). Run sync_gps.py to sync the data from local storage buffer into the cloud. 
 
