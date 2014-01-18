@@ -1,38 +1,23 @@
-import random
 import time
-import gps
+import serial
+import os
 
 while True:
-	time.sleep(1)
-	report = {}
+        time.sleep(1)
 
-	try:
-		session = gps.gps("localhost", "2947")
-		session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
-		report = session.next()
-	except:
-		#continue along, the defaults are below.
-		#continue
-		time.sleep(1)
+        serialport = serial.Serial("/dev/ttyUSB0", 4800, timeout=0.5)
+        r = serialport.readlines(1)
+        #alternative: r=serialport.readline(), and then loop through entire List that it returns
+        line = r[0] #r is a list, print 0th item in the list
+        #print "Raw Output: " + line 
+        #print line.find("GPGG")
 
-	gpstime = "Missing: Time"
-	lon = "Missing: Lon"
-	lat = "Missing: Lat"
-
-	if report:
-		if report['class'] == 'TPV':
-			if hasattr(report, 'time'):
-				#print "Time: " + str(report.time)
-				gpstime = str(report.time)
-			if hasattr(report, 'lon'):
-				#print "Lon: " + str(report.lon)
-				lon = str(report.lon)
-			if hasattr(report, 'lat'):
-				#print "Lat: " + str(report.lat)
-				lat = str(report.lat)
-
-	f = open('test.txt', 'a')
-	#r = random.randrange(10,99)
-	f.write(gpstime+"\t"+lon+"\t"+lat+"\n")
-	f.close()
+        if line[1:6] == "GPGGA":
+                #print "HIT"
+                data = line.split(",")
+                #print "UTC: " + data[1]
+                #print "Lat: " + data[2]
+                #print "N or S: " + data[3]
+                #print "Lon: " + data[4]
+                #print "E or W: " + data[5]
 
