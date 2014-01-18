@@ -21,6 +21,8 @@ while True:
         serialport = serial.Serial(gps_device, 4800, timeout=0.5)
         r = serialport.readlines(1)
         #alternative: r=serialport.readline(), and then loop through entire List that it returns
+	if len(r) == 0:
+		continue
         line = r[0] #r is a list, print 0th item in the list
         #print "Raw Output: " + line 
         #print line.find("GPGG")
