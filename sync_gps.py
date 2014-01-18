@@ -57,7 +57,7 @@ while True:
 				id = data['_id']
 				#Convert from dict data type retunred by coll.find() into a JSON list data type 
 				#Also, remove the _ID item from the array as that's not needed when sending data to the API. 
-				jarray = {"APIKey":data['APIKey'], "lat":data['lat'], "lng":data['lng'], "EventDate":data['EventDate']}
+				jarray = {"APIKey":data['APIKey'], "lat":data['lat'], "lon":data['lon'], "EventDate":data['EventDate']}
 				jdata = json.dumps(jarray)
 				#print "Uploading: " + jdata
 				result = urllib2.urlopen(WSURL+"gpslog.php", jdata)
