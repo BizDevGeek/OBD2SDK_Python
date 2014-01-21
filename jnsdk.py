@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from time import strftime
 from ConfigParser import *
 import sys
+import sqlite3
 
 c = ConfigParser()
 
@@ -54,7 +55,7 @@ def RetrieveKey(Email):
 def APIKey():
 	return API_Key
 
-def SaveGPS(APIKey, latitude, NS, longitude, EW, UTC):
+def SaveGPS(latitude, NS, longitude, EW, UTC):
 	#TODO: Validate the data coming in before it's sent out. 
 
         #jdata = {"APIKey":APIKey, "lat":latitude, "NS":NS, "lon":longitude, "EW":EW, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
@@ -65,4 +66,8 @@ def SaveGPS(APIKey, latitude, NS, longitude, EW, UTC):
         #post_id = collection.insert(jdata)
 	
 	#SQLite code:
-	
+	conn = sqlite3.connect("gps.db")#TODO: Replace w/ config data
+	curs = conn.cursor()
+	curs.execute("insert into gps (lat, ns, lon, ew, eventdate) values((?), (?), (?), (?), '2014-01-18 13:46:05');", (latitude, NS, longitude, EW))	
+	conn.commit()
+	conn.close()

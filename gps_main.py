@@ -35,5 +35,5 @@ while True:
                 #print "N or S: " + data[3]
                 #print "Lon: " + data[4]
                 #print "E or W: " + data[5]
-		jnsdk.SaveGPS(APIKey, data[2], data[3], data[4], data[5], data[1])
+		jnsdk.SaveGPS(data[2], data[3], data[4], data[5], data[1])
 
