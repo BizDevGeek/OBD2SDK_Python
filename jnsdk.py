@@ -68,6 +68,6 @@ def SaveGPS(latitude, NS, longitude, EW, UTC):
 	#SQLite code:
 	conn = sqlite3.connect("gps.db")#TODO: Replace w/ config data
 	curs = conn.cursor()
-	curs.execute("insert into gps (lat, ns, lon, ew, eventdate) values((?), (?), (?), (?), '2014-01-18 13:46:05');", (latitude, NS, longitude, EW))	
+	curs.execute("insert into gps (lat, ns, lon, ew, eventdate) values((?), (?), (?), (?), (?));", (latitude, NS, longitude, EW, strftime("%Y-%m-%d %H:%M:%S")))	
 	conn.commit()
 	conn.close()
