@@ -1,7 +1,5 @@
 import urllib2
 import json
-#import pymongo
-#from pymongo import MongoClient
 import time
 from ConfigParser import *
 import sqlite3
@@ -14,10 +12,9 @@ WSURL = c.get("Settings", "url")
 APIKey = jnsdk.APIKey()
 
 #Buffer
-#mongodb = c.get("Settings", "mongodb")
-#mongocollection = c.get("Settings", "mongocoll_gps")
+db = c.get("Settings", "sqlite_gps_db")
 
-#Sync utility. Pull records from buffer (MongoDB) and push to API
+#Sync utility. Pull records from buffer and push to API
 
 #Server globals
 WSURLConnectTest = WSURL
@@ -51,7 +48,7 @@ while True:
 		#i = coll.count()
 	
 
-		conn = sqlite3.connect("gps.db")
+		conn = sqlite3.connect(db)
 		curs = conn.cursor()
 
 		curs.execute("select count(*) from gps")

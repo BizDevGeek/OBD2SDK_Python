@@ -23,6 +23,7 @@ API_Key = c.get("Settings", "api_key")
 mongodb = c.get("Settings", "mongodb")
 MCOBD = c.get("Settings", "mongocoll_obd")
 MCGPS = c.get("Settings", "mongocoll_gps")
+sqlite_db = c.get("Settings", "sqlite_gps_db")
 
 #NOTE: There is no validation of the API key at the client side. Add this in. 
 def SendPID(APIKey, PID, PIDValue):	
@@ -66,7 +67,7 @@ def SaveGPS(latitude, NS, longitude, EW, UTC):
         #post_id = collection.insert(jdata)
 	
 	#SQLite code:
-	conn = sqlite3.connect("gps.db")#TODO: Replace w/ config data
+	conn = sqlite3.connect(sqlite_db)
 	curs = conn.cursor()
 	curs.execute("insert into gps (lat, ns, lon, ew, eventdate) values((?), (?), (?), (?), (?));", (latitude, NS, longitude, EW, strftime("%Y-%m-%d %H:%M:%S")))	
 	conn.commit()
