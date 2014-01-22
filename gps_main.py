@@ -16,7 +16,7 @@ except:
 APIKey = jnsdk.APIKey()
 
 while True:
-        time.sleep(1)
+        time.sleep(.1)
 
         serialport = serial.Serial(gps_device, 4800, timeout=0.5)
         r = serialport.readlines(1)
