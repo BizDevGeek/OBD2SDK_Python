@@ -4,17 +4,19 @@ import pymongo
 from pymongo import MongoClient
 import time
 from ConfigParser import *
+import jnsdk
+import sqlite3
 
 c = ConfigParser()
 c.read("config.txt")
 
 WSURL = c.get("Settings", "url")
+APIKey = jnsdk.APIKey()
 
 #Buffer
-mongodb = c.get("Settings", "mongodb")
-mongocollection = c.get("Settings", "mongocoll")
+db = c.get("Settings", "sqlite_gps_db")
 
-#Sync utility. Pull records from buffer (MongoDB) and push to API
+#Sync utility. Pull records from buffer and push to API
 
 #Server globals
 WSURLConnectTest = WSURL
@@ -41,39 +43,36 @@ while True:
 	time.sleep(CheckInterval) #check for an internet connection to server every N seconds
 	while IsConnected(WSURLConnectTest):
 
-		client = MongoClient()
-		db = client[mongodb]
-		coll = db[mongocollection]
 
-		i = coll.count()
-	
-	
+                conn = sqlite3.connect(db)
+                curs = conn.cursor()
+
+                curs.execute("select count(*) from readings")
+                row = curs.fetchone()
+                i = row[0]
+
 		while i <> 0:
 
 			if IsConnected(WSURLConnectTest):
-				#get oldest record
-				#data = coll.find().sort({_id:1})
-				data = coll.find_one()
-				id = data['_id']
-				#Convert from dict data type retunred by coll.find() into a JSON list data type 
-				#Also, remove the _ID item from the array as that's not needed when sending data to the API. 
-				jarray = {"APIKey":data['APIKey'], "PID":data['PID'], "PIDValue":data['PIDValue'], "EventDate":data['EventDate']}
-				jdata = json.dumps(jarray)
-				#print "Uploading: " + jdata
-				result = urllib2.urlopen(WSURL+"save.php", jdata)
-				r = result.read()
-				if r == "true":
-					#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
-					coll.remove({"_id":id})
-					i = coll.count()
-				else:
-					#API isn't saving the data. Log or alert the system to this.
-					print r	
-	#jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
-	#client = MongoClient()
-	#db = client[mongodb]
-	#collection = db[mongocollection]
-	#post_id = collection.insert(jdata)
 
 
+                                #get oldest record
+				curs.execute("select PID, PIDValue, eventdate, id from readings order by eventdate")
+                                row = curs.fetchone()
+                                id = row[3] 
+                                jarray = {"APIKey":APIKey, "PID":row[0], "PIDValue":row[1],"EventDate":row[2]}
+                                jdata = json.dumps(jarray)
+                                #print "Uploading: " + jdata
+                                result = urllib2.urlopen(WSURL+"save.php", jdata)
+                                r = result.read()
+                                if r == "true":
+                                        #confirm the record was received by checking the API's return code. If so, delete the record from Mongo
+                                        curs.execute("delete from readings where id = (?)", (id,))
+                                        conn.commit()
+                                        curs.execute("select count(*) from readings")
+                                        row = curs.fetchone()
+                                        i = row[0]
+                                else:
+                                        #API isn't saving the data. Log or alert the system to this.
+                                        print "Failed to upload. ID="+str(id)+r 
 
