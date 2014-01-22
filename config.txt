@@ -6,4 +6,5 @@ mongocoll_gps = gps
 api_key = DEFAULTAPIKEY
 gps_device = /dev/ttyUSB0
 sqlite_gps_db = gps.db
+sqlite_obd_db = obd.db
 
