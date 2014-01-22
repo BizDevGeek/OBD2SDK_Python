@@ -14,7 +14,7 @@ WSURL = c.get("Settings", "url")
 APIKey = jnsdk.APIKey()
 
 #Buffer
-db = c.get("Settings", "sqlite_gps_db")
+db = c.get("Settings", "sqlite_obd_db")
 
 #Sync utility. Pull records from buffer and push to API
 
@@ -66,7 +66,7 @@ while True:
                                 result = urllib2.urlopen(WSURL+"save.php", jdata)
                                 r = result.read()
                                 if r == "true":
-                                        #confirm the record was received by checking the API's return code. If so, delete the record from Mongo
+                                        #confirm the record was received by checking the API's return code. If so, delete the record from db
                                         curs.execute("delete from readings where id = (?)", (id,))
                                         conn.commit()
                                         curs.execute("select count(*) from readings")

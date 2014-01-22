@@ -24,7 +24,8 @@ API_Key = c.get("Settings", "api_key")
 mongodb = c.get("Settings", "mongodb")
 MCOBD = c.get("Settings", "mongocoll_obd")
 MCGPS = c.get("Settings", "mongocoll_gps")
-sqlite_db = c.get("Settings", "sqlite_gps_db")
+sqlite_gps_db = c.get("Settings", "sqlite_gps_db")
+sqlite_obd_db = c.get("Settings", "sqlite_obd_db")
 
 #NOTE: There is no validation of the API key at the client side. Add this in. 
 def SendPID(APIKey, PID, PIDValue):	
@@ -41,7 +42,7 @@ def SendPID(APIKey, PID, PIDValue):
 
         #SQLite code:
         try:
-                conn = sqlite3.connect(sqlite_db)
+                conn = sqlite3.connect(sqlite_obd_db)
         except:
                 return "Failed to connect to db"
 
@@ -112,7 +113,7 @@ def SaveGPS(latitude, NS, longitude, EW, UTC):
 
 	#SQLite code:
 	try:
-		conn = sqlite3.connect(sqlite_db)
+		conn = sqlite3.connect(sqlite_gps_db)
 	except:
 		return "Failed to connect to db"
 
