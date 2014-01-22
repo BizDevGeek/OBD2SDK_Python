@@ -32,12 +32,30 @@ def SendPID(APIKey, PID, PIDValue):
 
 	#Stop calling the API directly, and instead, push the data into a local buffer via MongoDB.
 	#jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
-	jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
-	client = MongoClient()
-	db = client[mongodb]
-	collection = db[MCOBD]
-	post_id = collection.insert(jdata)
+	#jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
+	#client = MongoClient()
+	#db = client[mongodb]
+	#collection = db[MCOBD]
+	#post_id = collection.insert(jdata)
 
+
+        #SQLite code:
+        try:
+                conn = sqlite3.connect(sqlite_db)
+        except:
+                return "Failed to connect to db"
+
+        curs = conn.cursor()
+        curs.execute("insert into readings (pid, pidvalue, eventdate) values((?), (?), (?));", (PID, PIDValue, strftime("%Y-%m-%d %H:%M:%S")))
+
+        try:
+                conn.commit()
+        except:
+                return "Failed to insert record"
+
+        conn.close()
+
+        return "true"
 
 
 def RegisterNewUser(Email):
