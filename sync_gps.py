@@ -78,7 +78,7 @@ while True:
 					i = row[0]
 				else:
 					#API isn't saving the data. Log or alert the system to this.
-					print r	
+					print "Failed to upload. ID="+str(id)+r	
 	#jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
 	#client = MongoClient()
 	#db = client[mongodb]

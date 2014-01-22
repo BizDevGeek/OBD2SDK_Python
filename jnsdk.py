@@ -6,6 +6,7 @@ from time import strftime
 from ConfigParser import *
 import sys
 import sqlite3
+import datetime
 
 c = ConfigParser()
 
@@ -57,7 +58,7 @@ def APIKey():
 	return API_Key
 
 def SaveGPS(latitude, NS, longitude, EW, UTC):
-	#TODO: Validate the data coming in before it's sent out. 
+	#Saves GPS data to local storage buffer.
 
         #jdata = {"APIKey":APIKey, "lat":latitude, "NS":NS, "lon":longitude, "EW":EW, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
         #MongoDB code:
@@ -66,9 +67,45 @@ def SaveGPS(latitude, NS, longitude, EW, UTC):
         #collection = db[MCGPS]
         #post_id = collection.insert(jdata)
 	
+	#Validate input
+	#Sometimes the GPS outputs bad data, so it's critical to validate input, otherwise over a period of time there WILL be invalid arguments passed.
+	if NS != "N" and NS != "S":
+		return "Invalid NS"
+	if EW != "E" and EW != "W":
+		return "Invalid EW"
+	
+	try:
+		float(latitude)
+	except:
+		return "Invalid LAT"
+	try:
+		float(longitude)
+	except:
+		return "Invalid LON"
+
+	#if not isinstance(latitude, float):
+		#return "Invalid LAT"
+
+	#not using the UTC arg at this time 
+	#try:
+		#datetime.datetime.strptime(UTC, "%Y-%m-%d")
+	#except ValueError:
+		#return "Invalid UTC"	
+
 	#SQLite code:
-	conn = sqlite3.connect(sqlite_db)
+	try:
+		conn = sqlite3.connect(sqlite_db)
+	except:
+		return "Failed to connect to db"
+
 	curs = conn.cursor()
 	curs.execute("insert into gps (lat, ns, lon, ew, eventdate) values((?), (?), (?), (?), (?));", (latitude, NS, longitude, EW, strftime("%Y-%m-%d %H:%M:%S")))	
-	conn.commit()
+
+	try:
+		conn.commit()
+	except:
+		return "Failed to insert record"
+
 	conn.close()
+
+	return "true"

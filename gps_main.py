@@ -28,12 +28,13 @@ while True:
         #print line.find("GPGG")
 
         if line[1:6] == "GPGGA":
-                #print "HIT"
                 data = line.split(",")
+		#print line
                 #print "UTC: " + data[1]
                 #print "Lat: " + data[2]
                 #print "N or S: " + data[3]
                 #print "Lon: " + data[4]
                 #print "E or W: " + data[5]
-		jnsdk.SaveGPS(data[2], data[3], data[4], data[5], data[1])
-
+		status=jnsdk.SaveGPS(data[2], data[3], data[4], data[5], data[1])
+		#if status != "true":
+			#print "failed to save: " + str(line)
