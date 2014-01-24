@@ -57,8 +57,10 @@ while True:
 
 
                                 #get oldest record
-				curs.execute("select PID, PIDValue, eventdate, id from readings order by eventdate")
-                                row = curs.fetchone()
+				#Ideally start from oldest record, but this is a major performance hit as written currently. Removed it for now.
+				#curs.execute("select PID, PIDValue, eventdate, id from readings order by eventdate")
+                                curs.execute("select PID, PIDValue, eventdate, id from readings")
+				row = curs.fetchone()
                                 id = row[3] 
                                 jarray = {"APIKey":APIKey, "PID":row[0], "PIDValue":row[1],"EventDate":row[2]}
                                 jdata = json.dumps(jarray)

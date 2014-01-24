@@ -59,7 +59,9 @@ while True:
 
 			if IsConnected(WSURLConnectTest):
 				#get oldest record
-				curs.execute("select lat, NS, lon, EW, eventdate, id from gps order by eventdate")
+				#Ideally start from oldest record, but this is a major performance hit as written currently. Removed it for now.
+				#curs.execute("select lat, NS, lon, EW, eventdate, id from gps order by eventdate")
+				curs.execute("select lat, NS, lon, EW, eventdate, id from gps")
 				row = curs.fetchone()
 				#Convert from dict data type retunred by coll.find() into a JSON list data type 
 				#Also, remove the _ID item from the array as that's not needed when sending data to the API.
