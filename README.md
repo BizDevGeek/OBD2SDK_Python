@@ -11,19 +11,32 @@ The SDK stores the saved values in a local buffer. The buffer is a MongoDB colle
 
 GPS data is also being added in. This feature is still in development. 
 
-sync.py pulls records from the local buffer (MongoDB) and sends them to the API via JSON. It then removes them from the buffer. Runs in an infinite loop, not just until the buffer is empty. You can run it in a separate terminal window and leave it going, or Ctrl+C to kill it. 
+sync.py pulls records from the local buffer and sends them to the API via JSON. It then removes them from the buffer. Runs in an infinite loop, not just until the buffer is empty. You can run it in a separate terminal window and leave it going, or Ctrl+C to kill it. 
+
+The date/time reported to the cloud service is based on the Pi's local time and timezone. Make sure this is set properly. You can run "sudo raspi-config" to set the timezone on your Pi. In future versions, the UTC clock returned by the GPS may be used, although this can also have issues. 
+
 
 Installation
 
 SSH into your Raspberry Pi
 
+Make sure it's up to date:
+
+sudo apt-get update
+
+sudo apt-get upgrade
+
 cd /home/pi
+
+Copy the SDK from GitHub to the Pi:
 
 git clone https://github.com/BizDevGeek/OBD2SDK_Python.git
 
+Run the setup program. This gets you an API key from the cloud service, sets the names of the databases, and the device path to an optional GPS device. The config data is saved to config.txt. You can use all the defaults to keep it simple. 
+
 python setup.py
 
-Install the GPS daemon so that it's recording GPS data into the local buffer. 
+Install the GPS daemon so that it's recording GPS data into the local buffer. The daemon uses "upstart" instead of /etc/init.d, the latest method of managing services in Linux. 
 
 sudo cp /home/pi/OBD2SDK_Python/gpslogger.conf /etc/init
 
@@ -43,5 +56,5 @@ In your Python program, add "import jnsdk". To save a PID each time you poll it 
 
 The above function call saves the PID values to a local buffer, a MongoDB Collection. Run sync.py to sync the data to the API. It pulls records one at a time from the buffer, uploads to the API, then removes them. It verifies that there's a connection to the server first. 
 
-The GPS daemon gpslogger reads the Pi's serial connection to the USB GPS device and logs it to local buffer (MongoDB). Run sync_gps.py to sync the data from local storage buffer into the cloud. 
+The GPS daemon gpslogger reads the Pi's serial connection to the USB GPS device and logs it to local buffer. Run sync_gps.py to sync the data from local storage buffer into the cloud. 
 
