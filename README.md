@@ -26,6 +26,10 @@ sudo apt-get update
 
 sudo apt-get upgrade
 
+Install the various pre-requisites:
+
+sudo apt-get install sqlite3 
+
 cd /home/pi
 
 Copy the SDK from GitHub to the Pi:
