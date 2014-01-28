@@ -30,6 +30,8 @@ Install the various pre-requisites:
 
 sudo apt-get install sqlite3 
 
+sudo apt-get install gpsd gpsd-clients python-gps
+
 cd /home/pi
 
 Copy the SDK from GitHub to the Pi:
