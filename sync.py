@@ -1,7 +1,7 @@
 import urllib2
 import json
-import pymongo
-from pymongo import MongoClient
+#import pymongo
+#from pymongo import MongoClient
 import time
 from ConfigParser import *
 import jnsdk
