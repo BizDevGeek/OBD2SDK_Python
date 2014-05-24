@@ -14,6 +14,7 @@ except:
         sys.exit()      
 
 APIKey = jnsdk.APIKey()
+debug = False #or change to True to output GPS data as it comes in. Only use it if this script isn't run in the background. 
 
 while True:
         time.sleep(.1)
@@ -29,12 +30,13 @@ while True:
 
         if line[1:6] == "GPGGA":
                 data = line.split(",")
-		#print line
-                #print "UTC: " + data[1]
-                #print "Lat: " + data[2]
-                #print "N or S: " + data[3]
-                #print "Lon: " + data[4]
-                #print "E or W: " + data[5]
+		if debug == True:
+			print line
+                	print "UTC: " + data[1]
+                	print "Lat: " + data[2]
+                	print "N or S: " + data[3]
+                	print "Lon: " + data[4]
+                	print "E or W: " + data[5]
 		status=jnsdk.SaveGPS(data[2], data[3], data[4], data[5], data[1])
 		#if status != "true":
 			#print "failed to save: " + str(line)

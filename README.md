@@ -28,9 +28,7 @@ sudo apt-get upgrade
 
 Install the various pre-requisites:
 
-sudo apt-get install sqlite3 
-
-sudo apt-get install gpsd gpsd-clients python-gps
+sudo apt-get install gpsd gpsd-clients python-gps python-serial sqlite3
 
 cd /home/pi
 
