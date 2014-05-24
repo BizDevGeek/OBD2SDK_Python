@@ -22,20 +22,20 @@ apiurl = raw_input("Enter the URL of the API to use [Enter for default value: ht
 if apiurl == "":
 	apiurl = "http://23.239.10.88/obdapi/"
 
-mongodb = raw_input("Enter the name of the MongoDB to use [Enter for default value: obd]")
+#mongodb = raw_input("Enter the name of the MongoDB to use [Enter for default value: obd]")
 
-if mongodb == "":
-	mongodb = "obd"
+#if mongodb == "":
+#	mongodb = "obd"
 
-mongocollection_obd = raw_input("Enter the name of the MongoDB Collection to use for OBD2 [Enter for default value: pids]")
+#mongocollection_obd = raw_input("Enter the name of the MongoDB Collection to use for OBD2 [Enter for default value: pids]")
 
-if mongocollection_obd == "":
-	mongocollection_obd = "pids"
+#if mongocollection_obd == "":
+#	mongocollection_obd = "pids"
 
-mongocollection_gps = raw_input("Enter the name of the MongoDB Collection to use for GPS [Enter for default value: gps]")
+#mongocollection_gps = raw_input("Enter the name of the MongoDB Collection to use for GPS [Enter for default value: gps]")
 
-if mongocollection_gps == "":
-        mongocollection_gps = "gps"
+#if mongocollection_gps == "":
+#        mongocollection_gps = "gps"
 
 sqlite_gps_db = raw_input("Enter the name of the SQLite database to use for GPS [Enter for default value: gps.db]")
 
