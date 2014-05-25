@@ -59,9 +59,9 @@ if gps_logging_interval == "":
 
 c.add_section("Settings")
 c.set("Settings", "url", apiurl) #must include a trailing slash
-c.set("Settings", "mongodb", mongodb)
-c.set("Settings", "mongocoll_obd", mongocollection_obd)
-c.set("Settings", "mongocoll_gps", mongocollection_gps)
+#c.set("Settings", "mongodb", mongodb)
+#c.set("Settings", "mongocoll_obd", mongocollection_obd)
+#c.set("Settings", "mongocoll_gps", mongocollection_gps)
 c.set("Settings", "sqlite_gps_db", sqlite_gps_db)
 c.set("Settings", "sqlite_obd_db", sqlite_obd_db)
 c.set("Settings", "gps_device", gps_device)
