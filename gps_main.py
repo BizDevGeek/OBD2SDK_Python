@@ -18,7 +18,7 @@ APIKey = jnsdk.APIKey()
 debug = False #or change to True to output GPS data as it comes in. Only use it if this script isn't run in the background. 
 
 while True:
-        time.sleep(gps_logging_interval)
+        time.sleep(float(gps_logging_interval))
 
         serialport = serial.Serial(gps_device, 4800, timeout=0.5)
         r = serialport.readlines(1)
