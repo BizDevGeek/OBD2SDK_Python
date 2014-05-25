@@ -52,6 +52,11 @@ gps_device = raw_input("Enter the Linux device name of your USB GPS [Enter for d
 if gps_device == "":
         gps_device = "/dev/ttyUSB0"
 
+gps_logging_interval = raw_input("How often, in seconds, should GPS coordinates be logged? [Enter for default value: .1 seconds (10 times a second)]")
+
+if gps_logging_interval == "":
+	gps_logging_interval = ".1" 
+
 c.add_section("Settings")
 c.set("Settings", "url", apiurl) #must include a trailing slash
 c.set("Settings", "mongodb", mongodb)
@@ -60,6 +65,7 @@ c.set("Settings", "mongocoll_gps", mongocollection_gps)
 c.set("Settings", "sqlite_gps_db", sqlite_gps_db)
 c.set("Settings", "sqlite_obd_db", sqlite_obd_db)
 c.set("Settings", "gps_device", gps_device)
+c.set("Settings", "gps_logging_interval", gps_logging_interval)
 
 c.write(f) #setup the URL before registering email address, so you know which server to register with.
 f.close

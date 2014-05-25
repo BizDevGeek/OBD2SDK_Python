@@ -9,6 +9,7 @@ c = ConfigParser()
 try:
         c.read("config.txt")
         gps_device = c.get("Settings", "gps_device") 
+	gps_logging_interval = c.get("Settings", "gps_logging_interval")
 except:
         print "Can't open config file. Run setup.py and make sure config.txt is valid"
         sys.exit()      
@@ -17,7 +18,7 @@ APIKey = jnsdk.APIKey()
 debug = False #or change to True to output GPS data as it comes in. Only use it if this script isn't run in the background. 
 
 while True:
-        time.sleep(.1)
+        time.sleep(gps_logging_interval)
 
         serialport = serial.Serial(gps_device, 4800, timeout=0.5)
         r = serialport.readlines(1)
