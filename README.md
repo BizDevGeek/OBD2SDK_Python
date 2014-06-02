@@ -3,6 +3,8 @@ OBD2SDK_Python
 
 Python SDK for using the OBD2 cloud storage service
 
+Main project page: http://www.jozefnagy.com/content/raspberry_pi_car_black_box
+
 The OBD2 cloud storage service is available here: https://github.com/BizDevGeek/OBD2CloudStorage
 
 This project contains an SDK that you can use to save OBD2 PID values. Use it with existing Python based OBD2 capture software such as the popular "pyobd". Any time a PID is logged from the computer, save it using the SDK so that it gets stored in the cloud storage service.  
