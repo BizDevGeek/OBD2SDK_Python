@@ -3,7 +3,7 @@ OBD2SDK_Python
 
 Python SDK for using the OBD2 cloud storage service
 
-Main project page: http://www.jozefnagy.com/content/raspberry_pi_car_black_box
+Main project page: http://www.blackboxpi.com
 
 The OBD2 cloud storage service is available here: https://github.com/BizDevGeek/OBD2CloudStorage
 
