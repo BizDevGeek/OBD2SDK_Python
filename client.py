@@ -15,7 +15,7 @@ while True:
 	#arbitrary random values and ranges
 	PID = random.randrange(10,99)
 	PIDValue = random.randrange(-50, 5000)
-	APIKey = jnsdk.APIKey()
+	#APIKey = jnsdk.APIKey()
 
-	jnsdk.SendPID(APIKey, PID, PIDValue)
+	jnsdk.SendPID(PID, PIDValue)
 

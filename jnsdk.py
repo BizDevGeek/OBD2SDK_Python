@@ -28,7 +28,7 @@ sqlite_gps_db = c.get("Settings", "sqlite_gps_db")
 sqlite_obd_db = c.get("Settings", "sqlite_obd_db")
 
 #NOTE: There is no validation of the API key at the client side. Add this in. 
-def SendPID(APIKey, PID, PIDValue):	
+def SendPID(PID, PIDValue):	
 	#global APIKey
 
 	#Stop calling the API directly, and instead, push the data into a local buffer via MongoDB.
