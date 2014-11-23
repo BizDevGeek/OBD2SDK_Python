@@ -22,6 +22,7 @@ WSURLConnectTest = WSURL
 
 #Other Settings
 CheckInterval = 1 #seconds
+DisplayStatus = False
 
 #Check that there's a connection to the API server
 def IsConnected(URL):
@@ -56,9 +57,10 @@ while True:
 		row = curs.fetchone()
 		i = row[0]
 
-		#display # of records that are to be synced
-		sys.stdout.write("Records to sync: " + str(i) + "\n")
-		sys.stdout.flush()
+		if DisplayStatus:
+			#display # of records that are to be synced
+			sys.stdout.write("Records to sync: " + str(i) + "\n")
+			sys.stdout.flush()
 	
 		while i <> 0:
 
@@ -83,10 +85,11 @@ while True:
 					curs.execute("select count(*) from gps")
 					row = curs.fetchone()
 					i = row[0]
-
-					#Display sync status
-					sys.stdout.write("\rRecords left: " + str(i))
-					sys.stdout.flush()
+					
+					if DisplayStatus:
+						#Display sync status
+						sys.stdout.write("\rRecords left: " + str(i))
+						sys.stdout.flush()
 				else:
 					#API isn't saving the data. Log or alert the system to this.
 					print "Failed to upload. ID="+str(id)+r	
