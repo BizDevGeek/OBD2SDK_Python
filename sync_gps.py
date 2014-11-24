@@ -85,7 +85,7 @@ while True:
 				result = urllib2.urlopen(WSURL+"gpslog.php", jdata)
 				r = result.read()
 				if r == "true":
-					logging.debug("Record successfully uploaded to server: " + str(id))
+					#logging.debug("Record successfully uploaded to server: " + str(id))
 					#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
 					conn = sqlite3.connect(db)
         	                        curs = conn.cursor()
