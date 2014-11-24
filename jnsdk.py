@@ -7,6 +7,7 @@ from ConfigParser import *
 import sys
 import sqlite3
 import datetime
+import logging
 
 c = ConfigParser()
 
@@ -77,7 +78,9 @@ def APIKey():
 	return API_Key
 
 def SaveGPS(latitude, NS, longitude, EW, UTC):
-	#Saves GPS data to local storage buffer.
+	#Saves GPS data to local storage buffer (database)
+
+	logging.basicConfig(filename="events.log", format='%(asctime)s %(levelname)s:%(message)s', level=logging.DEBUG)
 
         #jdata = {"APIKey":APIKey, "lat":latitude, "NS":NS, "lon":longitude, "EW":EW, "EventDate":strftime("%Y-%m-%d %H:%M:%S")}
         #MongoDB code:
@@ -115,16 +118,19 @@ def SaveGPS(latitude, NS, longitude, EW, UTC):
 	try:
 		conn = sqlite3.connect(sqlite_gps_db)
 	except:
+		logging.warning("failed to connect to db")
 		return "Failed to connect to db"
 
 	curs = conn.cursor()
-	curs.execute("insert into gps (lat, ns, lon, ew, eventdate) values((?), (?), (?), (?), (?));", (latitude, NS, longitude, EW, strftime("%Y-%m-%d %H:%M:%S")))	
 
 	try:
+		curs.execute("insert into gps (lat, ns, lon, ew, eventdate) values((?), (?), (?), (?), (?));", (latitude, NS, longitude, EW, strftime("%Y-%m-%d %H:%M:%S")))
 		conn.commit()
 	except:
+		logging.warning("failed to insert record")
 		return "Failed to insert record"
 
+	#logging.debug("saved new record to db")
 	conn.close()
 
 	return "true"

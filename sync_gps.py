@@ -5,6 +5,7 @@ from ConfigParser import *
 import sqlite3
 import jnsdk
 import sys
+import logging
 
 c = ConfigParser()
 c.read("config.txt")
@@ -21,8 +22,9 @@ db = c.get("Settings", "sqlite_gps_db")
 WSURLConnectTest = WSURL
 
 #Other Settings
-CheckInterval = 1 #seconds
+CheckInterval = 10 #seconds
 DisplayStatus = False
+logging.basicConfig(filename="events.log", format='%(asctime)s %(levelname)s:%(message)s', level=logging.DEBUG)
 
 #Check that there's a connection to the API server
 def IsConnected(URL):
@@ -61,6 +63,7 @@ while True:
 			#display # of records that are to be synced
 			sys.stdout.write("Records to sync: " + str(i) + "\n")
 			sys.stdout.flush()
+		#logging.debug(str(i) + " records to sync")
 	
 		while i <> 0:
 
@@ -82,22 +85,28 @@ while True:
 				result = urllib2.urlopen(WSURL+"gpslog.php", jdata)
 				r = result.read()
 				if r == "true":
+					logging.debug("Record successfully uploaded to server: " + str(id))
 					#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
 					conn = sqlite3.connect(db)
         	                        curs = conn.cursor()
 					curs.execute("delete from gps where id = (?)", (id,))
 					conn.commit()
-					curs.execute("select count(*) from gps")
-					row = curs.fetchone()
-					i = row[0]
-					conn.close()			
-					if DisplayStatus:
-						#Display sync status
-						sys.stdout.write("\rRecords left: " + str(i))
-						sys.stdout.flush()
+					conn.close()
 				else:
 					#API isn't saving the data. Log or alert the system to this.
-					print "Failed to upload. ID="+str(id)+r	
+					logging.warning("Failed to upload GPS db row. ID=" + str(id) + "; Result=" + r)
+					print "Failed to upload. ID="+str(id)+r
+				conn = sqlite3.connect(db)
+                                curs = conn.cursor()
+				curs.execute("select count(*) from gps")
+                                row = curs.fetchone()
+                                i = row[0]
+                                conn.close()
+	
+				if DisplayStatus:
+                                	#Display sync status
+                                        sys.stdout.write("\rRecords left: " + str(i))
+                                        sys.stdout.flush()
 	#jdata = {"APIKey":APIKey, "PID":PID, "PIDValue":PIDValue, "EventDate":"2014-01-01 12:00:00"}
 	#client = MongoClient()
 	#db = client[mongodb]

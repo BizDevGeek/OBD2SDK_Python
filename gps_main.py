@@ -2,7 +2,11 @@ import time
 import serial
 import os
 import jnsdk
+import logging
+import sys
 from ConfigParser import *
+
+logging.basicConfig(filename="events.log", format='%(asctime)s %(levelname)s:%(message)s', level=logging.DEBUG)
 
 c = ConfigParser()
 
@@ -19,6 +23,7 @@ debug = False #or change to True to output GPS data as it comes in. Only use it 
 
 while True:
         time.sleep(float(gps_logging_interval))
+	#logging.debug("run main gps reader function")
 
         serialport = serial.Serial(gps_device, 4800, timeout=0.5)
         r = serialport.readlines(1)
@@ -31,6 +36,7 @@ while True:
 
         if line[1:6] == "GPGGA":
                 data = line.split(",")
+		#logging.debug("Read from GPS receiver: " + str(line))
 		if debug == True:
 			print line
                 	print "UTC: " + data[1]
@@ -38,6 +44,16 @@ while True:
                 	print "N or S: " + data[3]
                 	print "Lon: " + data[4]
                 	print "E or W: " + data[5]
-		status=jnsdk.SaveGPS(data[2], data[3], data[4], data[5], data[1])
-		#if status != "true":
+
+		try:
+			status=jnsdk.SaveGPS(data[2], data[3], data[4], data[5], data[1])
+		except:
+			logging.error("Failed to run jnsdk.SaveGPS() \n" + str(sys.exc_info()[0]))
+			status="critical failure"
+
+		#logging.debug("Attempted to save GPS by gps_main.py. Status=" + status)
+		if debug == True:
+			print status
+		if status != "true":
+			logging.warning("Failed to save GPS record: " + str(line))
 			#print "failed to save: " + str(line)
