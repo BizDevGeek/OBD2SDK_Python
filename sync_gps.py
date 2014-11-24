@@ -52,7 +52,6 @@ while True:
 
 		conn = sqlite3.connect(db)
 		curs = conn.cursor()
-
 		curs.execute("select count(*) from gps")
 		row = curs.fetchone()
 		i = row[0]
@@ -71,7 +70,7 @@ while True:
 				#curs.execute("select lat, NS, lon, EW, eventdate, id from gps order by eventdate")
 				conn = sqlite3.connect(db)
 				curs = conn.cursor()	
-				curs.execute("select lat, NS, lon, EW, eventdate, id from gps")
+				curs.execute("select lat, NS, lon, EW, eventdate, id from gps limit 1")
 				row = curs.fetchone()
 				conn.close()
 				#Convert from dict data type retunred by coll.find() into a JSON list data type 
