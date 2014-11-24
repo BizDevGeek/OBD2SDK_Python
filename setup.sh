@@ -10,6 +10,8 @@ sudo gpsctl -f -n /dev/ttyUSB0
 sudo rm -rf /home/pi/OBD2SDK_Python
 git clone https://github.com/BizDevGeek/OBD2SDK_Python.git
 sudo chown -R pi:pi /home/pi/OBD2SDK_Python
+sudo rm /var/www/index.html
+sudo cp /home/pi/OBD2SDK_Python/index.php /var/www
 sudo cp /home/pi/OBD2SDK_Python/gpslogger.conf /etc/init
 sudo cp /home/pi/OBD2SDK_Python/gpssync.conf /etc/init
 sudo apt-get install upstart
