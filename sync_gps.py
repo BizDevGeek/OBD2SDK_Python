@@ -56,6 +56,7 @@ while True:
 		curs.execute("select count(*) from gps")
 		row = curs.fetchone()
 		i = row[0]
+		conn.close()
 
 		if DisplayStatus:
 			#display # of records that are to be synced
@@ -68,8 +69,11 @@ while True:
 				#get oldest record
 				#Ideally start from oldest record, but this is a major performance hit as written currently. Removed it for now.
 				#curs.execute("select lat, NS, lon, EW, eventdate, id from gps order by eventdate")
+				conn = sqlite3.connect(db)
+				curs = conn.cursor()	
 				curs.execute("select lat, NS, lon, EW, eventdate, id from gps")
 				row = curs.fetchone()
+				conn.close()
 				#Convert from dict data type retunred by coll.find() into a JSON list data type 
 				#Also, remove the _ID item from the array as that's not needed when sending data to the API.
 				id = row[5] 
@@ -80,12 +84,14 @@ while True:
 				r = result.read()
 				if r == "true":
 					#confirm the record was received by checking the API's return code. If so, delete the record from Mongo
+					conn = sqlite3.connect(db)
+        	                        curs = conn.cursor()
 					curs.execute("delete from gps where id = (?)", (id,))
 					conn.commit()
 					curs.execute("select count(*) from gps")
 					row = curs.fetchone()
 					i = row[0]
-					
+					conn.close()			
 					if DisplayStatus:
 						#Display sync status
 						sys.stdout.write("\rRecords left: " + str(i))
