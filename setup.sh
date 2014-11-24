@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo Black Box Pi setup script
-echo
 
 cd /home/pi
 sudo apt-get install -y htop bwm-ng gpsd gpsd-clients python-gps sqlite3 python-serial speedometer
