@@ -52,10 +52,10 @@ gps_device = raw_input("Enter the Linux device name of your USB GPS [Enter for d
 if gps_device == "":
         gps_device = "/dev/ttyUSB0"
 
-gps_logging_interval = raw_input("How often, in seconds, should GPS coordinates be logged? [Enter for default value: .1 seconds (10 times a second)]")
+gps_logging_interval = raw_input("How often, in seconds, should GPS coordinates be logged? [Enter for default value: 1 seconds (1 times a second)]")
 
 if gps_logging_interval == "":
-	gps_logging_interval = ".1" 
+	gps_logging_interval = "1" 
 
 c.add_section("Settings")
 c.set("Settings", "url", apiurl) #must include a trailing slash
