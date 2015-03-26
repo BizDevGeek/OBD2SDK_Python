@@ -58,5 +58,7 @@ Raspberry Pi status page for the <a href="http://www.blackboxpi.com">Black Box P
 GPS records to sync: <?php echo($records);?><br>
 <br>
 GPS records are stored locally on the Pi in a database. The daemon <i>gpssync</i> syncs these to the Black Box Pi server any time the Pi is connected to the internet.  
+<br><br>
+Dash camera footage:  <a href="/dashcam">/var/www/dashcam</a>
 </body>
 </html>
