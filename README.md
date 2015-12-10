@@ -9,7 +9,7 @@ The OBD2 cloud storage service is available here: https://github.com/BizDevGeek/
 
 This project contains an SDK that you can use to save OBD2 PID values. Use it with existing Python based OBD2 capture software such as the popular "pyobd". Any time a PID is logged from the computer, save it using the SDK so that it gets stored in the cloud storage service.  
 
-The SDK stores the saved values in a local buffer. The buffer is a MongoDB collection. 
+The SDK stores the saved values in a local buffer. The buffer is a MySQL collection. 
 
 GPS data is also being added in. This feature is still in development. 
 
@@ -60,7 +60,7 @@ Copy the .py files to where your Python program is.
 
 In your Python program, add "import jnsdk". To save a PID each time you poll it from the OBD2 serial connection: jnsdk.SendPID(jnsdk.APIKey(), PID, PIDValue)
 
-The above function call saves the PID values to a local buffer, a MongoDB Collection. Run sync.py to sync the data to the API. It pulls records one at a time from the buffer, uploads to the API, then removes them. It verifies that there's a connection to the server first. 
+The above function call saves the PID values to a local buffer, a MySQL database. Run sync.py to sync the data to the API. It pulls records one at a time from the buffer, uploads to the API, then removes them. It verifies that there's a connection to the server first. 
 
 The GPS daemon gpslogger reads the Pi's serial connection to the USB GPS device and logs it to local buffer. Run sync_gps.py to sync the data from local storage buffer into the cloud. 
 
